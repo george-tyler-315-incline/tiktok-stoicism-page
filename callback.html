@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OAuth Callback</title>
+  <script>
+    (async () => {
+      const params = new URLSearchParams(window.location.search);
+      const code = params.get('code');
+      if (!code) {
+        document.body.textContent = 'Missing code parameter.';
+        return;
+      }
+      document.body.textContent = 'Authorisation complete — you may close this tab.';
+      try {
+        await fetch('https://YOUR_BACKEND_HOST/oauthRelay', {  // TODO: replace
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ code })
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  </script>
+</head>
+<body></body>
+</html>
